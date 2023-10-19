@@ -13,7 +13,7 @@ from rest_framework.parsers import JSONParser
 # Create your views here.
 
 @csrf_exempt
-@api_view(['GET','POST','DELETE'])
+@api_view(['GET','POST'])
 def login (request):
     if request.method == 'GET':
         query = Usuario.objects.all()
@@ -30,16 +30,8 @@ def login (request):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         else: 
             return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == 'DELETE':
-        try:
-            usuario = Usuario.objects.get(user=username)
-        except Usuario.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        if request.method =='DELETE':
-            usuario.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT) 
 
-@api_view(['PUT','DELETE'])
+@api_view(['DELETE'])
 def login_editar (request,username):
     try:
         usuario = Usuario.objects.get(user=username)
